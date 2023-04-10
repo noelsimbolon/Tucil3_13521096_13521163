@@ -20,11 +20,12 @@ class FileInputHandler:
                 continue
 
             if 0 < i < node_count + 1:
+                node_id = i -1
                 coordinates = line.split(' ')
                 if len(coordinates) != 2:
                     raise "error while processing file"
                 try:
-                    node_list.append(Node(float(coordinates[0]), float(coordinates[1])))
+                    node_list.append(Node(node_id, float(coordinates[0]), float(coordinates[1])))
                 except ValueError:
                     raise "error while processing file"
 
