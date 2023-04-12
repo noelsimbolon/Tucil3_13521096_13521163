@@ -1,7 +1,7 @@
 import heapq
 
-from src.common import math
-from src.model.node import Node
+from ..common import distance_operations
+from ..model.node import Node
 
 
 class Engine:
@@ -9,7 +9,7 @@ class Engine:
     def __heuristic(informed: bool, start_node: Node = None, goal_node: Node = None) -> float:
         if not informed:
             return 0
-        return math.euclidean_distance(start_node, goal_node)
+        return distance_operations.euclidean_distance(start_node, goal_node)
 
     @staticmethod
     def __trace_path(dijkstra_table: list[(float, int)], node_list: list[Node],

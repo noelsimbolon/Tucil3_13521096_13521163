@@ -1,6 +1,7 @@
+import math
+
 from geopy.distance import distance
 
-import distance_operations
 from ..model.node import Node
 
 
