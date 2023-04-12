@@ -1,7 +1,7 @@
 import heapq
 
-from ..common import distance_operations
-from ..model.node import Node
+from src.common import distance_operations
+from src.model.node import Node
 
 
 class Engine:

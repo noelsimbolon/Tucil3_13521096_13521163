@@ -3,10 +3,10 @@ import matplotlib.pyplot as plt
 import networkx as nx
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
-from . import util
-from ..algorithm.main_algorithm import Engine
-from ..io.file_handler import FileInputHandler
-from ..model.node import Node
+from src.algorithm.main_algorithm import Engine
+from src.gui import util
+from src.io.file_handler import FileInputHandler
+from src.model.node import Node
 
 
 class FileTab(customtkinter.CTkFrame):

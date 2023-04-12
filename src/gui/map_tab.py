@@ -3,10 +3,10 @@ import tkintermapview
 from tkintermapview.canvas_path import CanvasPath
 from tkintermapview.canvas_position_marker import CanvasPositionMarker
 
-from . import util
-from ..algorithm.main_algorithm import Engine
-from ..common import distance_operations
-from ..model.node import Node
+from src.algorithm.main_algorithm import Engine
+from src.common import distance_operations
+from src.gui import util
+from src.model.node import Node
 
 
 class MapTab(customtkinter.CTkFrame):

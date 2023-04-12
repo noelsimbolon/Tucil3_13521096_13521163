@@ -1,6 +1,6 @@
 import customtkinter
 
-from . import file_tab, map_tab
+from src.gui import file_tab, map_tab
 
 customtkinter.set_appearance_mode("Dark")
 customtkinter.set_default_color_theme("blue")

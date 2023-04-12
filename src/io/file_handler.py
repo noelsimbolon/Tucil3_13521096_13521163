@@ -1,4 +1,4 @@
-from ..model.node import Node
+from src.model.node import Node
 
 
 class FileInputHandler:

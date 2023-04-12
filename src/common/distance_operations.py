@@ -2,7 +2,7 @@ import math
 
 from geopy.distance import distance
 
-from ..model.node import Node
+from src.model.node import Node
 
 
 def euclidean_distance(first_node: Node, second_node: Node) -> float:
