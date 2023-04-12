@@ -1,4 +1,5 @@
 from model.node import Node
+from algorithm.mainalgorithm import Engine
 
 
 class FileInputHandler:
@@ -10,40 +11,46 @@ class FileInputHandler:
         lines = file1.readlines()
         node_count = -1
         node_list: list[Node] = []
-        adj_matrix: list[list[float]] = [[]]
+        adj_matrix: list[list[float]] = []
+        line_idx = -1
         for i, line in enumerate(lines):
-            if i == 0:  # matrix size / node count
-                try:
+            try:
+                if i == 0:  # matrix size / node count
                     node_count = int(line)
-                except ValueError:
-                    raise "error while processing file"
-                continue
+                    adj_matrix = [[] for _ in range(node_count)]
+                    continue
 
-            if 0 < i < node_count + 1:
-                node_id = i -1
-                coordinates = line.split(' ')
-                if len(coordinates) != 2:
-                    raise "error while processing file"
-                try:
+                if 0 < i < node_count + 1:
+                    node_id = i -1
+                    coordinates = line.split(' ')
+                    if len(coordinates) != 2:
+                        RuntimeError("error while processing file")
                     node_list.append(Node(node_id, float(coordinates[0]), float(coordinates[1])))
-                except ValueError:
-                    raise "error while processing file"
 
-                continue
+                    continue
 
-            if i >= node_count + 1:
-                weights = line.split(' ')
-                if len(weights) != node_count:
-                    raise "error while processing file"
-                try:
-                    adj_matrix.append([0.0 for _ in range(node_count)])
+                if i >= node_count + 1:
+                    weights = line.split(' ')
+                    if len(weights) != node_count:
+                        RuntimeError("error while processing file")
+
                     v_idx = i - (node_count + 1)
+                    adj_matrix[v_idx] = ([0.0 for _ in range(node_count)])
                     for j, weight in enumerate(weights):
                         adj_matrix[v_idx][j] = float(weight)
 
-                except ValueError:
-                    raise "error while processing file"
-
-                continue
+            except (ValueError, IndexError):
+                raise RuntimeError("error while processing file")
 
         return node_list, adj_matrix
+
+
+if __name__ == '__main__':
+    (node_list, adj_matrix) = FileInputHandler.load_file(
+        "/home/zidane/kuliah/Semester-4/IF2211-Strategi-Algoritma/Tucil/Tucil3_13521096_13521163/src/app/matrix.txt")
+    print(adj_matrix)
+    (cost, listnode) = Engine.search_ucs(0, 5, node_list, adj_matrix)
+    print(cost)
+
+    for node in node_list:
+        print(node.x, node.y)
