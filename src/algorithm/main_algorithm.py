@@ -29,7 +29,7 @@ class Engine:
     def search_path(start_index: int, goal_index: int, informed: bool,
                     node_list: list[Node], adj_matrix: list[list[float]]) -> (float, list[Node]):
         if start_index == goal_index:
-            return adj_matrix[start_index][goal_index], [start_index]
+            return adj_matrix[start_index][goal_index], [node_list[start_index]]
 
         # format: (shortest distance, source node id)
         dijkstra_table = [(-1.0, 0) for _ in range(len(node_list))]
