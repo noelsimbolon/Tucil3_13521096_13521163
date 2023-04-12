@@ -1,6 +1,6 @@
 import heapq
 
-from mathcommon.common import *
+from common.math import *
 from model.node import Node
 
 

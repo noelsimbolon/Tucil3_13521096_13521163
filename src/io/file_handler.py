@@ -1,5 +1,5 @@
 from model.node import Node
-from algorithm.mainalgorithm import Engine
+from algorithm.main_algorithm import Engine
 
 
 class FileInputHandler:
