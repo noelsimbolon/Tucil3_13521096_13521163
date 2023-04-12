@@ -64,8 +64,13 @@ class FileTab(customtkinter.CTkFrame):
             self.file_input_frame.file_validation_message.configure(text='Please open a file.',
                                                                     text_color='red')
             return
-        except ValueError or IndexError:
+        except RuntimeError:
             self.file_input_frame.file_validation_message.configure(text='Invalid file.',
+                                                                    text_color='red')
+            return
+
+        if len(FileTab.nodes) < 8:
+            self.file_input_frame.file_validation_message.configure(text='Minimum 8 nodes required.',
                                                                     text_color='red')
             return
 
