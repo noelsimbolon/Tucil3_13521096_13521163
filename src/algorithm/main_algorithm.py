@@ -1,16 +1,15 @@
 import heapq
 
-from common.math import *
-from model.node import Node
+from src.common import math
+from src.model.node import Node
 
 
 class Engine:
-
     @staticmethod
     def __heuristic(informed: bool, start_node: Node = None, goal_node: Node = None) -> float:
         if not informed:
             return 0
-        return euclidean_distance(start_node, goal_node)
+        return math.euclidean_distance(start_node, goal_node)
 
     @staticmethod
     def __trace_path(dijkstra_table: list[(float, int)], node_list: list[Node],
@@ -35,7 +34,8 @@ class Engine:
 
         queue = []
         # format: (shortest distance, node)
-        heapq.heappush(queue, (Engine.__heuristic(informed, node_list[start_index], node_list[goal_index]), start_index))
+        heapq.heappush(queue,
+                       (Engine.__heuristic(informed, node_list[start_index], node_list[goal_index]), start_index))
 
         while len(queue) > 0:
             node_index: int = heapq.heappop(queue)[1]
