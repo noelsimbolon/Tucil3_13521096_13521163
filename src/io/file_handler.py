@@ -1,9 +1,7 @@
-from model.node import Node
-from algorithm.main_algorithm import Engine
+from src.model.node import Node
 
 
 class FileInputHandler:
-
     @staticmethod
     def load_file(path: str) -> (list[Node], list[list[float]]):
         file1 = open(path, 'r')
@@ -21,7 +19,7 @@ class FileInputHandler:
                     continue
 
                 if 0 < i < node_count + 1:
-                    node_id = i -1
+                    node_id = i - 1
                     coordinates = line.split(' ')
                     if len(coordinates) != 2:
                         RuntimeError("error while processing file")
@@ -43,14 +41,3 @@ class FileInputHandler:
                 raise RuntimeError("error while processing file")
 
         return node_list, adj_matrix
-
-
-if __name__ == '__main__':
-    (node_list, adj_matrix) = FileInputHandler.load_file(
-        "/home/zidane/kuliah/Semester-4/IF2211-Strategi-Algoritma/Tucil/Tucil3_13521096_13521163/src/app/matrix.txt")
-    print(adj_matrix)
-    (cost, listnode) = Engine.search_ucs(0, 5, node_list, adj_matrix)
-    print(cost)
-
-    for node in node_list:
-        print(node.x, node.y)
