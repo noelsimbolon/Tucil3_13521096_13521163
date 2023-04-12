@@ -205,7 +205,11 @@ class FileTab(customtkinter.CTkFrame):
                                                                 FileTab.adj_matrix)
 
     def visualize_route(self) -> None:
+        # Create a Figure object
         fig = plt.figure(figsize=(7, 4))
+
+        # Configure subplot params
+        plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
 
         # List of node IDs to color edges between
         route_nodes = [node.node_id for node in FileTab.route]
