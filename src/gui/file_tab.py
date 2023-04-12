@@ -1,7 +1,7 @@
 import customtkinter
 import matplotlib.pyplot as plt
 import networkx as nx
-from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
+from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg, NavigationToolbar2Tk
 
 from src.algorithm.main_algorithm import Engine
 from src.gui import util
@@ -89,14 +89,14 @@ class FileTab(customtkinter.CTkFrame):
         num_nodes = len(FileTab.adj_matrix)
 
         # Create an empty graph
-        FileTab.input_graph = nx.Graph()
+        FileTab.input_graph = nx.DiGraph()
 
         # Add nodes to the graph
         FileTab.input_graph.add_nodes_from([node.node_id for node in FileTab.nodes])
 
-        # Add edges to the graph based on the adjacency matrix (testing)
+        # Add edges to the graph based on the adjacency matrix
         for i in range(num_nodes):
-            for j in range(i + 1, num_nodes):  # Only iterate over the upper triangle of the matrix to avoid duplicates
+            for j in range(num_nodes):
                 weight = FileTab.adj_matrix[i][j]
                 if weight > 0:
                     FileTab.input_graph.add_edge(i, j, weight=weight)  # Add edge with weight as an attribute
@@ -105,7 +105,10 @@ class FileTab(customtkinter.CTkFrame):
         FileTab.node_positions = nx.spring_layout(FileTab.input_graph)
 
         # Create a Figure object
-        fig = plt.figure(figsize=(7, 4))  # Width and height in inches
+        fig = plt.figure(figsize=(7, 4))  # Width and height in
+
+        # Configure subplot params
+        plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
 
         # Remove black borders
         ax = fig.gca()
@@ -123,12 +126,18 @@ class FileTab(customtkinter.CTkFrame):
         # Draw node labels
         nx.draw_networkx_labels(FileTab.input_graph, pos=FileTab.node_positions)
 
-        # Destroy graph canvas (if a plot is present this destroys it)
+        # Destroy graph canvas and navigation toolbar if present
         self.file_output_frame.graph_canvas.get_tk_widget().destroy()
+        self.file_output_frame.graph_navigation_toolbar.destroy()
 
         # Visualize the graph
         self.file_output_frame.graph_canvas = FigureCanvasTkAgg(fig, master=self.file_output_frame.graph_frame)
         self.file_output_frame.graph_canvas.draw()
+        self.file_output_frame.graph_canvas.get_tk_widget().pack()
+
+        # Create a navigation toolbar for the graph
+        self.file_output_frame.graph_navigation_toolbar = NavigationToolbar2Tk(self.file_output_frame.graph_canvas)
+        self.file_output_frame.graph_navigation_toolbar.update()
         self.file_output_frame.graph_canvas.get_tk_widget().pack()
 
         self.file_input_frame.file_validation_message.configure(text='Graph visualized.', text_color='green')
@@ -196,7 +205,11 @@ class FileTab(customtkinter.CTkFrame):
                                                                 FileTab.adj_matrix)
 
     def visualize_route(self) -> None:
+        # Create a Figure object
         fig = plt.figure(figsize=(7, 4))
+
+        # Configure subplot params
+        plt.subplots_adjust(left=0, bottom=0, right=1, top=1)
 
         # List of node IDs to color edges between
         route_nodes = [node.node_id for node in FileTab.route]
@@ -372,6 +385,12 @@ class FileOutputFrame(customtkinter.CTkFrame):
         # This initialization is useful to avoid displaying multiple plots
         # by destroying the canvas before creating a new one every time a graph is want to be drawn
         self.graph_canvas = FigureCanvasTkAgg(None, master=self.graph_frame)
+
+        # Initialize a navigation toolbar for graph
+        # This initialization is useful to avoid displaying multiple toolbars
+        # by destroying it before creating a new one every time a graph is want to be drawn
+        self.graph_navigation_toolbar = NavigationToolbar2Tk(self.graph_canvas)
+        self.graph_navigation_toolbar.pack_forget()
 
         # Result tab view
         self.result_tab_view = FileResultTabView(master=self,

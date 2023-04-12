@@ -183,7 +183,11 @@ class MapTab(customtkinter.CTkFrame):
         self.map.delete_all_marker()
         self.map.delete_all_path()
 
+        # Clear any output
+        self.map_output_frame.result_tab_view.route_label.configure(text='')
+        self.map_output_frame.result_tab_view.distance_label.configure(text='')
         self.map_input_frame.status_message.configure(text='')
+
         self.map_input_frame.map_message.configure(text='Map cleared.',
                                                    text_color='green')
 
@@ -191,6 +195,18 @@ class MapTab(customtkinter.CTkFrame):
         self.map.set_address(self.search_map_entry.get())
 
     def find_shortest_route_and_visualize_route(self) -> None:
+        # If there is less than 2 markers on the map
+        if len(MapTab.markers) < 2:
+            self.map_input_frame.status_message.configure(text="Not enough markers.",
+                                                          text_color='red')
+            return
+
+        # If there is no path
+        if len(MapTab.paths) == 0:
+            self.map_input_frame.status_message.configure(text="Add a path first.",
+                                                          text_color='red')
+            return
+
         # If the starting node or the destination node is not valid,
         # display error message until it is valid
         if not (MapTab.is_index_valid(self.map_input_frame.starting_node_entry.get()) and
